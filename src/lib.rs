@@ -6,8 +6,11 @@ pub fn server() {
     let mut server = Nickel::new();
 
     server.utilize(router! {
-        get "**" => |_req, _res| {
+        get "/" => |_req, _res| {
             "Hello world!"
+        }
+        get "/foo" => |_req, _res| {
+            "Hello world!2"
         }
     });
 
