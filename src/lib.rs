@@ -4,6 +4,7 @@ use nickel::Nickel;
 use self::routing::*;
 
 mod routing;
+mod middleware;
 
 pub fn server() {
     let mut server = Nickel::new();
