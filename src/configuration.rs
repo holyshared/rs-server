@@ -2,11 +2,8 @@ use toml:: { Parser };
 use std::default:: { Default };
 use std::path:: { Path };
 use std::fs::File;
-use std::io:: { Read };
-use std::str:: { from_utf8 };
-//let mut f = try!(File::create("foo.txt"));
-//try!(f.write_all(b"Hello, world!"));
-
+use std::io:: { Read, Result };
+use std::io;
 
 pub struct Configuration {
     host: String,
@@ -59,15 +56,9 @@ impl Default for Configuration {
     }
 }
 
-
-/*
-pub fn loadconfig() {
-    let mut parser = Parser::new(toml);
-    match parser.parse() {
-        Some(value) => println!("found toml: {:?}", value),
-        None => {
-            println!("parse errors: {:?}", parser.errors);
-        }
-    }
+fn readTomlFile(path: &Path) -> Result<String> {
+    let mut file = try!(File::open(path));
+    let mut buffer = String::new();
+    let _ = try!(file.read_to_string(&mut buffer));
+    Ok(content.clone())
 }
-*/
