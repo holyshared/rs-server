@@ -5,3 +5,4 @@ authors = ["holyshared <holy.shared.design@gmail.com>"]
 
 [dependencies]
 nickel = "0.7.3"
+toml = "0.1.27"
