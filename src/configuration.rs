@@ -60,7 +60,7 @@ pub fn read_file(path: &Path) -> Result<String> {
 mod tests {
     use std::path:: { Path };
     use std::env:: { current_dir };
-    use configuration:: { read_file };
+    use configuration:: { read_file, Server, Configuration };
 
     #[test]
     fn test_read_file() {
@@ -74,4 +74,21 @@ port = 3000
 
         assert_eq!(content.unwrap(), expected.to_string());
     }
+
+    #[test]
+    fn test_server_default() {
+        let server = Server::default();
+
+        assert_eq!(server.host, "127.0.0.1".to_string());
+        assert_eq!(server.port, 6767);
+    }
+
+    #[test]
+    fn test_config_default() {
+        let config = Configuration::default();
+
+        assert_eq!(config.server.host, "127.0.0.1".to_string());
+        assert_eq!(config.server.port, 6767);
+    }
+
 }
