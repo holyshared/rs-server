@@ -1,4 +1,5 @@
 extern crate toml;
+extern crate rustc_serialize;
 #[macro_use] extern crate nickel;
 
 use nickel::Nickel;

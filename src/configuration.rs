@@ -1,14 +1,20 @@
-use toml:: { Parser };
+use toml:: { Parser, Decoder, Value };
+use rustc_serialize:: { Decodable };
 use std::default:: { Default };
 use std::path:: { Path };
 use std::fs::File;
 use std::io:: { Read, Result };
-//use std::io;
 use std::borrow:: { Borrow };
 
+#[derive(RustcDecodable)]
 pub struct Configuration {
+    server: Server
+}
+
+#[derive(RustcDecodable)]
+pub struct Server {
     host: String,
-    port: String
+    port: i64
 }
 
 impl Configuration {
@@ -20,30 +26,21 @@ impl Configuration {
 impl Default for Configuration {
     fn default() -> Self {
         Configuration {
-            host: "127.0.0.1".to_string(),
-            port: "6767".to_string()
+            server: Server {
+                host: "127.0.0.1".to_string(),
+                port: 6767
+            }
         }
     }
 }
 
-pub fn from_toml_file(path: &Path) -> Option<Configuration> {
+pub fn from_toml_file(path: &Path) -> Result<Configuration> {
     let content = read_file(path).unwrap();
-    let mut parser = Parser::new(content.borrow());
-
-    match parser.parse() {
-        Some(table) => {
-            let host = table.get(&"host".to_string()).unwrap();
-            let port = table.get(&"port".to_string()).unwrap();
-
-            Some(
-                Configuration {
-                    host: host.to_string(),
-                    port: port.to_string()
-                }
-            )
-        },
-        None => None
-    }
+    let toml = &content[..];
+    let value = Parser::new(toml).parse().unwrap();
+    let mut decoder = Decoder::new(Value::Table(value));
+    let configuration = Configuration::decode(&mut decoder).unwrap();
+    Ok(configuration)
 }
 
 pub fn read_file(path: &Path) -> Result<String> {
