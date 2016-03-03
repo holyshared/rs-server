@@ -4,7 +4,6 @@ use std::default:: { Default };
 use std::path:: { Path };
 use std::fs::File;
 use std::io:: { Read, Result };
-use std::borrow:: { Borrow };
 use std::convert:: { From };
 
 #[derive(RustcDecodable)]
@@ -55,4 +54,24 @@ pub fn read_file(path: &Path) -> Result<String> {
     let mut buffer = String::new();
     let _ = try!(file.read_to_string(&mut buffer));
     Ok(buffer.clone())
+}
+
+#[cfg(test)]
+mod tests {
+    use std::path:: { Path };
+    use std::env:: { current_dir };
+    use configuration:: { read_file };
+
+    #[test]
+    fn test_read_file() {
+        let cwd = current_dir().unwrap();
+        let path = Path::new(&cwd).join("tests/fixtures/server.toml");
+        let content = read_file(path.as_path());
+        let expected = r#"[server]
+host = "127.0.0.1"
+port = 3000
+"#;
+
+        assert_eq!(content.unwrap(), expected.to_string());
+    }
 }
