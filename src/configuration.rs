@@ -5,6 +5,7 @@ use std::path:: { Path };
 use std::fs::File;
 use std::io:: { Read, Result };
 use std::borrow:: { Borrow };
+use std::convert:: { From };
 
 #[derive(RustcDecodable)]
 pub struct Configuration {
@@ -17,8 +18,8 @@ pub struct Server {
     port: i64
 }
 
-impl Configuration {
-    pub fn fromFile(path: &Path) -> Self {
+impl<'a> From<&'a Path> for Configuration {
+    fn from(path: &'a Path) -> Self {
         from_toml_file(path).unwrap()
     }
 }
