@@ -23,13 +23,19 @@ impl Configuration {
     }
 }
 
+impl Default for Server {
+    fn default() -> Self {
+        Server {
+            host: "127.0.0.1".to_string(),
+            port: 6767
+        }
+    }
+}
+
 impl Default for Configuration {
     fn default() -> Self {
         Configuration {
-            server: Server {
-                host: "127.0.0.1".to_string(),
-                port: 6767
-            }
+            server: Server::default()
         }
     }
 }
