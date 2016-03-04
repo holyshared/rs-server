@@ -5,7 +5,7 @@
 
 ## Basic usage
 
-	server -c server.toml
+	rs-server -c server.toml
 
 ## Configuration file
 
