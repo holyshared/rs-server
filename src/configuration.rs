@@ -5,6 +5,8 @@ use std::path:: { Path };
 use std::fs::File;
 use std::io:: { Read, Result };
 use std::convert:: { From };
+use std::net:: { ToSocketAddrs, SocketAddr };
+use std::vec:: { IntoIter };
 
 #[derive(RustcDecodable)]
 pub struct Configuration {
@@ -29,6 +31,15 @@ impl Default for Server {
             host: "127.0.0.1".to_string(),
             port: 6767
         }
+    }
+}
+
+impl ToSocketAddrs for Server {
+    type Iter = IntoIter<SocketAddr>;
+
+    fn to_socket_addrs(&self) -> Result<Self::Iter> {
+        let address = format!("{}:{}", self.host, self.port);
+        address[..].to_socket_addrs()
     }
 }
 
