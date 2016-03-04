@@ -14,7 +14,7 @@ mod routing;
 mod middleware;
 mod configuration;
 
-pub fn server() {
+fn main() {
     let mut config = Configuration::default();
     let mut config_file = "".to_string();
     {

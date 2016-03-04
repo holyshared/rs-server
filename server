@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+target/debug/examples/server -c tests/fixtures/server.toml
