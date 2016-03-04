@@ -27,7 +27,6 @@ pub fn server() {
     if !config_file.is_empty() {
         let cwd = current_dir().unwrap();
         let config_path = Path::new(&cwd).join(config_file);
-        println!("{:?}", config_path);
         config = Configuration::from(config_path.as_path());
     }
 
