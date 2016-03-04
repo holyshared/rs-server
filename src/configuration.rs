@@ -19,6 +19,12 @@ pub struct Server {
     port: u16
 }
 
+impl Configuration {
+    pub fn server_address(&self) -> &Server {
+        &self.server
+    }
+}
+
 impl<'a> From<&'a Path> for Configuration {
     fn from(path: &'a Path) -> Self {
         from_toml_file(path).unwrap()

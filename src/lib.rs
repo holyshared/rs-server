@@ -4,6 +4,7 @@ extern crate rustc_serialize;
 
 use nickel::Nickel;
 use self::routing::*;
+use self::configuration:: { Configuration };
 
 mod routing;
 mod middleware;
@@ -11,7 +12,8 @@ mod configuration;
 
 pub fn server() {
     let mut server = Nickel::new();
+    let config = Configuration::default();
 
     server.utilize(router());
-    server.listen("127.0.0.1:6767");
+    server.listen(config.server_address());
 }
