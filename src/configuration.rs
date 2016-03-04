@@ -14,7 +14,7 @@ pub struct Configuration {
 #[derive(RustcDecodable)]
 pub struct Server {
     host: String,
-    port: i64
+    port: u16
 }
 
 impl<'a> From<&'a Path> for Configuration {
