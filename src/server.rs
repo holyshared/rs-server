@@ -1,7 +1,7 @@
 use std::path:: { Path };
-use std::env:: { current_dir };
 use clap:: { App, Arg, ArgMatches };
 use nickel::Nickel;
+use nickel:: { StaticFilesHandler };
 use configuration:: { Configuration };
 use routing:: { router };
 
@@ -27,13 +27,12 @@ impl Application {
             .get_matches()
     }
     fn load_configuration_from_file(&self, config_file: &str) -> Configuration {
-        let cwd = current_dir().unwrap();
-        let config_path = Path::new(&cwd).join(config_file);
-        Configuration::from(config_path.as_path())
+        Configuration::from(Path::new(config_file))
     }
     fn start(&self, config: &Configuration) {
         let mut server = Nickel::new();
         server.utilize(router());
+        server.utilize(StaticFilesHandler::new(Path::new(".")));
         server.listen(config.server());
     }
 }
