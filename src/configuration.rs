@@ -1,7 +1,7 @@
 use toml:: { Parser, Decoder, Value };
 use rustc_serialize:: { Decodable };
 use std::default:: { Default };
-use std::path:: { Path };
+use std::path:: { Path, PathBuf };
 use std::fs::File;
 use std::io:: { Read, Result };
 use std::convert:: { From };
@@ -16,12 +16,16 @@ pub struct Configuration {
 #[derive(RustcDecodable)]
 pub struct Server {
     host: String,
-    port: u16
+    port: u16,
+    root_directory: String
 }
 
 impl Configuration {
     pub fn server(&self) -> &Server {
         &self.server
+    }
+    pub fn root_directory(&self) -> PathBuf {
+        PathBuf::from(&self.server.root_directory[..])
     }
 }
 
@@ -35,7 +39,8 @@ impl Default for Server {
     fn default() -> Self {
         Server {
             host: "127.0.0.1".to_string(),
-            port: 6767
+            port: 6767,
+            root_directory: ".".to_string()
         }
     }
 }
