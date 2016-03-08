@@ -25,7 +25,7 @@ impl Configuration {
         &self.server
     }
     pub fn root_directory(&self) -> PathBuf {
-        PathBuf::from(&self.server.root_directory[..])
+        self.server.root_directory()
     }
 }
 
@@ -42,6 +42,12 @@ impl Default for Server {
             port: 6767,
             root_directory: ".".to_string()
         }
+    }
+}
+
+impl Server {
+    pub fn root_directory(&self) -> PathBuf {
+        PathBuf::from(&self.root_directory[..])
     }
 }
 
