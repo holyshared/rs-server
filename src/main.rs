@@ -26,10 +26,9 @@ fn main() {
                 .takes_value(true)
         ).get_matches();
 
-    let config_file = matches.value_of("config").unwrap();
     let mut config = Configuration::default();
 
-    if !config_file.is_empty() {
+    if let Some(config_file) = matches.value_of("config") {
         let cwd = current_dir().unwrap();
         let config_path = Path::new(&cwd).join(config_file);
         config = Configuration::from(config_path.as_path());
