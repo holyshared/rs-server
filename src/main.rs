@@ -1,28 +1,33 @@
 extern crate toml;
 extern crate rustc_serialize;
-extern crate argparse;
+extern crate clap;
 #[macro_use] extern crate nickel;
 
 use nickel::Nickel;
 use self::routing::*;
 use self::configuration:: { Configuration };
-use argparse::{ ArgumentParser, Store };
 use std::path:: { Path };
 use std::env:: { current_dir };
+use clap:: { App, Arg };
 
 mod routing;
 mod middleware;
 mod configuration;
 
 fn main() {
+    let matches = App::new("Nickel application server")
+        .version("1.0")
+        .author("Noritaka Horio <holy.shared.design@gmail.com>")
+        .arg(Arg::with_name("config")
+                .short("c")
+                .long("config")
+                .value_name("FILE")
+                .help("configuration file")
+                .takes_value(true)
+        ).get_matches();
+
+    let config_file = matches.value_of("config").unwrap();
     let mut config = Configuration::default();
-    let mut config_file = "".to_string();
-    {
-        let mut ap = ArgumentParser::new();
-        ap.set_description("Nickel application server");
-        ap.refer(&mut config_file).add_option(&["-c", "--config"], Store, "configuration file");
-        ap.parse_args_or_exit();
-    }
 
     if !config_file.is_empty() {
         let cwd = current_dir().unwrap();

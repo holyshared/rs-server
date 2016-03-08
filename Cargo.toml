@@ -7,4 +7,4 @@ authors = ["holyshared <holy.shared.design@gmail.com>"]
 nickel = "0.7.3"
 toml = "0.1.27"
 rustc-serialize = "0.3.18"
-argparse = "0.2.1"
+clap = "2.1.2"
