@@ -20,7 +20,7 @@ pub struct Server {
 }
 
 impl Configuration {
-    pub fn server_address(&self) -> &Server {
+    pub fn server(&self) -> &Server {
         &self.server
     }
 }

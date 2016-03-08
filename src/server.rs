@@ -27,16 +27,17 @@ impl<'a> Application<'a> {
     }
     pub fn run(self) {
         let matches = self.cli.get_matches();
-        let mut config = Configuration::default();
-
-        if let Some(config_file) = matches.value_of("config") {
-            let cwd = current_dir().unwrap();
-            let config_path = Path::new(&cwd).join(config_file);
-            config = Configuration::from(config_path.as_path());
-        }
+        let config = match matches.value_of("config") {
+            Some(config_file) => {
+                let cwd = current_dir().unwrap();
+                let config_path = Path::new(&cwd).join(config_file);
+                Configuration::from(config_path.as_path())
+            },
+            None => Configuration::default()
+        };
 
         let mut server = Nickel::new();
         server.utilize(router());
-        server.listen(config.server_address());
+        server.listen(config.server());
     }
 }
