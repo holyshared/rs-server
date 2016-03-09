@@ -32,7 +32,7 @@ impl Application {
     fn start(&self, config: &Configuration) {
         let mut server = Nickel::new();
         server.utilize(router());
-        server.utilize(StaticFilesHandler::new(Path::new(&config.root_directory())));
+        server.utilize(StaticFilesHandler::new(&config.root_directory()));
         server.listen(config.server());
     }
 }
